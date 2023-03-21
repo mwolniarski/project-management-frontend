@@ -1,0 +1,17 @@
+.profile-details-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-details-container .welcome-text {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.profile-details-container img{
+  height: 50px;
+  border-radius: 50%;
+}

@@ -1,0 +1,19 @@
+.project-options {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  align-content: flex-end;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.options{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+ul li {
+  list-style: none;
+}

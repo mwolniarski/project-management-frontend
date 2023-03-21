@@ -1,0 +1,9 @@
+<div class="item-container" [ngClass]="isSideBarOpen ? 'open' : ''">
+  <li>
+    <a [routerLink]="redirectLink">
+      <i class='pi' [ngClass]="iconClass"></i>
+      <span class="links_name">{{itemName}}</span>
+    </a>
+    <span class="tooltip">{{itemName}}</span>
+  </li>
+</div>

@@ -1,0 +1,17 @@
+<div class="sidebar" [ngClass]="isSideBarOpen ? 'open' : ''">
+  <div class="logo-details">
+    <div class="logo_name">ProjectAin</div>
+    <i class='pi' id="btn" (click)="toggleSideBarStatus()" [ngClass]="isSideBarOpen ? 'pi-arrow-circle-left' : 'pi-arrow-circle-right'"></i>
+  </div>
+  <ul class="nav-list">
+    <app-sidebar-item [iconClass]="'pi-th-large'" [itemName]="'Dashboard'" [isSideBarOpen]="isSideBarOpen" [redirectLink]="'/'"></app-sidebar-item>
+    <app-sidebar-item [iconClass]="'pi-folder'" [itemName]="'Projects'" [isSideBarOpen]="isSideBarOpen" [redirectLink]="'/projects'"></app-sidebar-item>
+    <app-sidebar-item [iconClass]="'pi-calendar'" [itemName]="'Calendar'" [isSideBarOpen]="isSideBarOpen" [redirectLink]="'/calendar'"></app-sidebar-item>
+    <li class="sidebar-footer">
+      <a href="#">
+        <i class='pi pi-sign-out'></i>
+        <span class="links_name">Sign out</span>
+      </a>
+    </li>
+  </ul>
+</div>

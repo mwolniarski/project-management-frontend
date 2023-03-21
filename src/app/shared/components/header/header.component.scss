@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.nav-container {
+  top: 0;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  background: #0E141D;
+}
+
+.component{
+  margin-left: auto;
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+}

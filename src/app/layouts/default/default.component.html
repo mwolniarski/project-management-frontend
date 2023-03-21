@@ -1,0 +1,7 @@
+<app-sidebar [isSideBarOpen]="isSideBarOpen" (toggleSideBar)="sideBarToggle()"></app-sidebar>
+<section [ngClass]="isSideBarOpen ? 'home-section' : 'home-section'" style="background: #0E141D;">
+  <app-header (toggleSideBar)="sideBarToggle()" [isSideBarOpen]="isSideBarOpen"></app-header>
+  <div class="content-container">
+    <router-outlet></router-outlet>
+  </div>
+</section>

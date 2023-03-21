@@ -1,0 +1,98 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.item-container i{
+  color: #fff;
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+.item-container li{
+  position: relative;
+  margin: 8px 0;
+  list-style: none;
+}
+.item-container li .tooltip{
+  position: absolute;
+  top: -20px;
+  left: calc(100% + 15px);
+  z-index: 3;
+  background: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+}
+.item-container li:hover .tooltip{
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.item-container.open li .tooltip{
+  display: none;
+}
+.item-container input{
+  font-size: 15px;
+  color: #FFF;
+  font-weight: 400;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.5s ease;
+  background: #343E4D;
+}
+.item-container li a{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #343E4D;
+}
+.item-container li a:hover{
+  background: #FFF;
+}
+.item-container li a .links_name{
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s;
+}
+.item-container.open li a .links_name{
+  opacity: 1;
+  pointer-events: auto;
+}
+.item-container li a:hover .links_name,
+.item-container li a:hover i{
+  transition: all 0.5s ease;
+  color: #343E4D;
+}
+.item-container li i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+}
+@media (max-width: 420px) {
+  .sidebar li .tooltip{
+    display: none;
+  }
+}
