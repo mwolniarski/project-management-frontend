@@ -14,6 +14,7 @@ import {SidebarItemComponent} from "./components/sidebar/sidebar-item/sidebar-it
 import {ProfileDetailsComponent} from "./components/header/profile-details/profile-details.component";
 import {SearchBarComponent} from "./components/header/search-bar/search-bar.component";
 import {ActivitiesComponent} from "./components/header/activities/activities.component";
+import {AuthService} from "../auth/auth.service";
 
 
 
@@ -39,6 +40,7 @@ import {ActivitiesComponent} from "./components/header/activities/activities.com
   exports: [
     HeaderComponent,
     SidebarComponent
-  ]
+  ],
+  providers: [AuthService]
 })
 export class SharedModule { }

@@ -1,77 +1,31 @@
-<!--<mat-toolbar>-->
-<!--  <mat-toolbar-row>-->
-<!--    <mat-menu #menu="matMenu">-->
-<!--      <button mat-menu-item>-->
-<!--        Test1-->
-<!--      </button>-->
-<!--    </mat-menu>-->
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <p-splitButton label="All projects" [model]="items" styleClass="p-button-outlined p-button-warning"></p-splitButton>
+  </div>
+  <div class="p-toolbar-group-end">
+    <p-button icon="pi pi-plus" styleClass="p-button-warning" (click)="openCreateProjectModal()"></p-button>
+    <p-button icon="pi pi-filter" styleClass="p-button-rounded p-button-text"></p-button>
+  </div>
+</p-toolbar>
+<p-table [value]="projects" [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" [(selection)]="selectedProduct">
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let column of displayedColumns">{{column}}</th>
+    </tr>
+  </ng-template>
 
-<!--    <button mat-button [matMenuTriggerFor]="menu">-->
-<!--      All projects-->
-<!--      <mat-icon>arrow_drop_down</mat-icon>-->
-<!--    </button>-->
-<!--    <div class="projects-options">-->
-<!--      <ul class="options">-->
-<!--        <li>-->
-<!--          <button mat-button>-->
-<!--            List-->
-<!--            <mat-icon>arrow_drop_down</mat-icon>-->
-<!--          </button>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <button mat-button>-->
-<!--            Create project-->
-<!--            <mat-icon>add</mat-icon>-->
-<!--          </button>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <button mat-button>-->
-<!--            <mat-icon>filter_alt</mat-icon>-->
-<!--          </button>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--  </mat-toolbar-row>-->
-<!--</mat-toolbar>-->
-<!--<table mat-table [dataSource]="projects" class="mat-elevation-z8">-->
-<!--  <ng-container matColumnDef="name">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Project name </th>-->
-<!--    <td mat-cell *matCellDef="let element">-->
-<!--      <a mat-button color="primary" routerLinkActive="list-item-active" routerLink="/projects/1">{{element.name}} </a>-->
-<!--    </td>-->
-<!--  </ng-container>-->
-<!--  <ng-container matColumnDef="owner">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Owner </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.owner}} </td>-->
-<!--  </ng-container>-->
-<!--  <ng-container matColumnDef="status">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Status </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.status}} </td>-->
-<!--  </ng-container>-->
-<!--  <ng-container matColumnDef="progression">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Progression </th>-->
-<!--    <td mat-cell *matCellDef="let element">-->
-<!--      <mat-progress-bar mode="determinate" [value]="getPercent(element.taskCount, element.completedTasksCount)" style="width: 50%"></mat-progress-bar>-->
-<!--&lt;!&ndash;      <div class="progress-bar-column">&ndash;&gt;-->
-<!--&lt;!&ndash;        {{element.completedTasksCount}}&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="progress-bar">&ndash;&gt;-->
-<!--&lt;!&ndash;          <div class="progress-bar-container" [ngStyle]="{'width': getPercent(element.taskCount, element.completedTasksCount)}">&ndash;&gt;-->
-<!--&lt;!&ndash;            {{getPercent(element.taskCount, element.completedTasksCount)}}&ndash;&gt;-->
-<!--&lt;!&ndash;          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        {{element.taskCount}}&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--    </td>-->
-<!--  </ng-container>-->
-<!--  <ng-container matColumnDef="startDate">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Start time </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.startDate}} </td>-->
-<!--  </ng-container>-->
-<!--  <ng-container matColumnDef="endDate">-->
-<!--    <th mat-header-cell *matHeaderCellDef> End time </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.endDate}} </td>-->
-<!--  </ng-container>-->
 
-<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-<!--</table>-->
+  <ng-template pTemplate="body" let-project>
+    <tr>
+      <td><button pButton type="button" [label]="project.name" class="p-button-text" [routerLink]="project.id"></button></td>
+      <td>{{ project.owner.firstName +' '+project.owner.lastName}}</td>
+      <td>{{ project.status }}</td>
+      <td>
+        <!--<p-progressBar
+          [value]="((project.completedTasksCount/project.taskCount)*100) | number:'1.0-0'"></p-progressBar>-->
+      </td>
+      <td>{{ project.startTime }}</td>
+      <td>{{ project.endTime }}</td>
+    </tr>
+  </ng-template>
+</p-table>

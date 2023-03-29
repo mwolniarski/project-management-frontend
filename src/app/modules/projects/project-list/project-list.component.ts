@@ -1,28 +1,53 @@
 import { Component, OnInit } from '@angular/core';
+import {ProjectService} from "../service/project.service";
+import {SimpleProjectReadModel} from "../model/SimpleProjectReadModel.model";
+import {ProjectWriteModel} from "../model/ProjectWriteModel.model";
+import {ProjectStatus} from "../model/ProjectStatus.model";
+import {DialogService} from "primeng/dynamicdialog";
+import {AddProjectPageComponent} from "../add-project-page/add-project-page.component";
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.css']
+  styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
 
-  projects = [
-    {name: "Project 1", owner: "John", status: "Active", taskCount: 12, completedTasksCount: 6, startDate: "2023-01-01", endDate: "2024-01-01"},
-    {name: "Project 2", owner: "Mathew", status: "Inactive", taskCount: 12, completedTasksCount: 11, startDate: "2023-01-01", endDate: "2024-01-01"},
-    {name: "Project 3", owner: "Julia", status: "Inactive", taskCount: 3, completedTasksCount: 1, startDate: "2023-01-01", endDate: "2024-01-01"},
-    {name: "Project 4", owner: "Charlotte", status: "Active", taskCount: 12, completedTasksCount: 1, startDate: "2023-01-01", endDate: "2024-01-01"},
-  ];
+  selectedProduct = {};
 
-  displayedColumns = ["name", "owner", "status", "progression", "startDate", "endDate"];
+  projects: Array<SimpleProjectReadModel> = []
+  items =
+    [
+      {
+        label: 'Active projects',
+        icon: '',
+        command: () => {
 
-  constructor() { }
+        }
+      }
+    ];
+
+  displayedColumns = ["Name", "Owner", "Status", "Progress", "Start date", "End date"];
+
+  constructor(private projectService: ProjectService, private dialogService: DialogService) { }
 
   ngOnInit(): void {
+    this.projectService.getAllProjects().subscribe(projects => {
+      this.projects = projects;
+    });
   }
 
   getPercent(allTasks: number, completedTasks: number){
     return Math.trunc(((completedTasks/allTasks)*100));
   }
 
+  openCreateProjectModal(){
+    const ref = this.dialogService.open(AddProjectPageComponent, {
+      header: 'Add new project',
+      width: '90%',
+      height: '90%'
+    });
+
+    ref.onClose.subscribe(project => this.projects.push(project));
+  }
 }

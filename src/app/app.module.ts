@@ -4,6 +4,11 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AppRoutingModule} from "./app-routing.module";
 import {DefaultModule} from "./layouts/default/default.module";
+import {AuthModule} from "./auth/auth.module";
+import {AuthService} from "./auth/auth.service";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AuthInterceptorService} from "./auth/auth-interceptor.service";
+import {InvalidTokenInterceptorService} from "./auth/invalidToken-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -14,8 +19,11 @@ import {DefaultModule} from "./layouts/default/default.module";
     BrowserAnimationsModule,
     DefaultModule,
     AppRoutingModule,
+    AuthModule
   ],
-  providers: [],
+  providers: [AuthService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: InvalidTokenInterceptorService, multi: true}],
   exports: [
   ],
   bootstrap: [AppComponent]

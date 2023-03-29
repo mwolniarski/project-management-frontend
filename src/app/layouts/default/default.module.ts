@@ -9,13 +9,16 @@ import {SidebarModule} from "primeng/sidebar";
 import {ButtonModule} from "primeng/button";
 import {MenubarModule} from "primeng/menubar";
 import {InputTextModule} from "primeng/inputtext";
+import {CalendarComponent} from "../../modules/calendar/calendar.component";
+import {HttpClientModule} from "@angular/common/http";
 
 
 
 @NgModule({
   declarations: [
     DefaultComponent,
-    DashboardComponent
+    DashboardComponent,
+    CalendarComponent
   ],
   exports: [
     DefaultComponent
@@ -28,7 +31,8 @@ import {InputTextModule} from "primeng/inputtext";
     SidebarModule,
     ButtonModule,
     MenubarModule,
-    InputTextModule
+    InputTextModule,
+    HttpClientModule
   ]
 })
 export class DefaultModule { }

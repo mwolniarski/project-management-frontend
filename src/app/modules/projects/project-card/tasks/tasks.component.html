@@ -1,68 +1,37 @@
-<!--<mat-toolbar class="custom-secondary-color">-->
-<!--  <mat-toolbar-row>-->
-<!--    <mat-menu #menu="matMenu">-->
-<!--      <button mat-menu-item>-->
-<!--        Test1-->
-<!--      </button>-->
-<!--    </mat-menu>-->
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <p-splitButton label="All tasks" [model]="items" styleClass="p-button-outlined p-button-warning"></p-splitButton>
+  </div>
+  <div class="p-toolbar-group-end">
+    <p-splitButton label="List" [model]="[{label: 'Kanban'}]" styleClass="p-button-outlined p-button-warning"></p-splitButton>
+    <p-button icon="pi pi-plus" styleClass="p-button-warning" (click)="createTaskGroup()" [style]="{margin: '0 20px'}"></p-button>
+    <p-button icon="pi pi-filter" styleClass="p-button-rounded p-button-text"></p-button>
+  </div>
+</p-toolbar>
 
-<!--    <button mat-button [matMenuTriggerFor]="menu">-->
-<!--      All tasks-->
-<!--      <mat-icon>arrow_drop_down</mat-icon>-->
-<!--    </button>-->
-<!--    <div class="project-options">-->
-<!--      <ul class="options">-->
-<!--        <li>-->
-<!--          <button mat-button>-->
-<!--            List-->
-<!--            <mat-icon>arrow_drop_down</mat-icon>-->
-<!--          </button>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <button mat-button>-->
-<!--            Create project-->
-<!--            <mat-icon>add</mat-icon>-->
-<!--          </button>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <button mat-button>-->
-<!--            <mat-icon>filter_alt</mat-icon>-->
-<!--          </button>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--  </mat-toolbar-row>-->
-<!--</mat-toolbar>-->
-
-<!--<mat-accordion>-->
-<!--  <mat-expansion-panel hideToggle>-->
-<!--    <mat-expansion-panel-header>-->
-<!--      <mat-panel-title>-->
-<!--        Sprint 1-->
-<!--      </mat-panel-title>-->
-<!--      <mat-panel-description>-->
-<!--        This is a summary of the content-->
-<!--      </mat-panel-description>-->
-<!--    </mat-expansion-panel-header>-->
-<!--  </mat-expansion-panel>-->
-<!--  <mat-expansion-panel>-->
-<!--    <mat-expansion-panel-header>-->
-<!--      <mat-panel-title>-->
-<!--        Sprint 2-->
-<!--      </mat-panel-title>-->
-<!--      <mat-panel-description>-->
-<!--        Currently I am-->
-<!--      </mat-panel-description>-->
-<!--    </mat-expansion-panel-header>-->
-<!--    <mat-card>-->
-<!--      <mat-card-content>-->
-<!--        <a mat-button routerLinkActive="list-item-active" routerLink="/projects/2/task/1">Zadanie 1</a>-->
-<!--      </mat-card-content>-->
-<!--    </mat-card>-->
-<!--    <mat-card>-->
-<!--      <mat-card-content>-->
-<!--        <a mat-button routerLinkActive="list-item-active" routerLink="/projects/2/task/2">Zadanie 2</a>-->
-<!--      </mat-card-content>-->
-<!--    </mat-card>-->
-<!--  </mat-expansion-panel>-->
-<!--</mat-accordion>-->
+<p-treeTable [value]="taskGroups" (onNodeExpand)="onExpand($event)" (onNodeCollapse)="onCollapse($event)">
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let column of displayedColumns">{{column}}</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+    <tr [ttRow]="rowNode">
+      <td>
+        <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+        <p-button icon="pi pi-plus" styleClass="p-button-rounded p-button-text" (click)="createTask(rowData.id)" *ngIf="!rowData.status"></p-button>
+        {{ rowData.name }}
+      </td>
+      <td>{{ rowData.owner }}</td>
+      <td>{{ rowData.status }}</td>
+      <td>{{ rowData.startDate }}</td>
+      <td>{{ rowData.dueDate }}</td>
+      <td>{{ rowData.priority }}</td>
+      <td>
+        <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteTask(rowData.id)" *ngIf="rowData.status"></p-button>
+        <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteTaskGroup(rowData.id)" *ngIf="!rowData.status"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-treeTable>

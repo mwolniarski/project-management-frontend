@@ -1,0 +1,44 @@
+<form (ngSubmit)="submit()" #formModel="ngForm">
+  <div class="mb-3">
+    <label for="projectName" class="block text-900 font-medium mb-2">Project name</label>
+    <input
+      id="projectName"
+      type="text"
+      placeholder="Project name"
+      pInputText
+      [ngClass]="!projectName.valid && projectName.touched || !projectName.touched && formModel.submitted ? 'ng-invalid ng-dirty' : ''"
+      class="w-full"
+      ngModel
+      name="projectName"
+      required
+      #projectName="ngModel">
+    <small id="email-help" *ngIf="!projectName.valid && projectName.touched || !projectName.touched && formModel.submitted" class="p-error">Please enter project name!</small>
+  </div>
+
+  <div class="mb-3">
+    <label for="startDate" class="block text-900 font-medium mb-2">Start date</label>
+    <p-calendar id="startDate" class="w-full" ngModel name="startDate" #startDate="ngModel"></p-calendar>
+  </div>
+
+  <div class="mb-3">
+    <label for="endDate" class="block text-900 font-medium mb-2">End date</label>
+    <p-calendar id="endDate" class="w-full" ngModel name="endDate" #endDate="ngModel"></p-calendar>
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="block text-900 font-medium mb-2">Project description</label>
+    <textarea
+      id="description"
+      [cols]="30"
+      [rows]="5"
+      type="text"
+      placeholder="Describe created project..."
+      pInputTextarea
+      class="w-full"
+      ngModel
+      name="description"
+      #description="ngModel"></textarea>
+</div>
+
+  <button pButton pRipple label="Create project" class="w-full"></button>
+</form>
