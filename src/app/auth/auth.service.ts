@@ -8,7 +8,7 @@ import {LoginResponse} from "./model/LoginResponse.model";
 import {LocalStorageService} from "./localStorage.service";
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/api";
-import {environment} from "../../environment/environment";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class AuthService {

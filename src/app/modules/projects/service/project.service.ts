@@ -8,7 +8,7 @@ import {TaskGroupReadModel} from "../model/TaskGroupReadModel.model";
 import {TaskReadModel} from "../model/TaskReadModel.model";
 import {TaskWriteModel} from "../model/TaskWriteModel.model";
 import {BehaviorSubject} from "rxjs";
-import {environment} from "../../../../environment/environment";
+import {environment} from "../../../../environments/environment";
 
 @Injectable()
 export class ProjectService {
