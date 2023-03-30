@@ -48,8 +48,6 @@ export class AuthService {
         response => {
           const accessTokenExpirationTime = new Date(new Date().getTime()+response.accessTokenExpirationTime);
           const refreshTokenExpirationTime = new Date(new Date().getTime()+response.refreshTokenExpirationTime);
-          console.log(accessTokenExpirationTime)
-          console.log(refreshTokenExpirationTime)
           this.handleAuthentication(request.username, response.accessToken, response.refreshToken, accessTokenExpirationTime, refreshTokenExpirationTime, true);
         },
         () => {
@@ -84,7 +82,7 @@ export class AuthService {
   }
 
   refreshToken(token: string, username: string){
-    this.httpClient.get<LoginResponse>(this.getRequestUrl('refreshToken'), {headers: new HttpHeaders({'Authorization': 'Bearer ' + token})})
+    this.httpClient.get<LoginResponse>(this.getRequestUrl('api/refreshToken'), {headers: new HttpHeaders({'Authorization': 'Bearer ' + token})})
       .subscribe(
         response => {
           const accessTokenExpirationTime = new Date(new Date().getTime()+response.accessTokenExpirationTime);
