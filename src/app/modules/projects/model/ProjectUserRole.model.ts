@@ -1,5 +1,5 @@
 export enum ProjectUserRole {
-  USER,
-  MANAGER,
-  ADMIN
+  USER = "USER",
+  MANAGER = "MANAGER",
+  ADMIN = "ADMIN"
 }

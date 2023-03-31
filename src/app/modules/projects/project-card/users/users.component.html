@@ -25,7 +25,7 @@
   </ng-template>
   <ng-template pTemplate="summary">
     <div class="flex align-items-center justify-content-between">
-      In total there are {{users ? users.length : 0 }} users.
+      In total there are {{this.project.value !== null ? this.project.value.users.length : 0}} users.
     </div>
   </ng-template>
 </p-table>

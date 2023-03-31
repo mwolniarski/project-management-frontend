@@ -10,17 +10,11 @@ import {AddUserPageComponent} from "./add-user-page/add-user-page.component";
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent {
 
-  users: Array<UserReadModel> = [];
   project = new BehaviorSubject<ProjectReadModel | null>(null);
   constructor(private dialogService: DialogService) { }
 
-  ngOnInit(): void {
-    if(this.project.value !== null){
-      this.users = this.project.value.users;
-    }
-  }
 
   addUser(){
     const ref = this.dialogService.open(AddUserPageComponent, {
@@ -33,7 +27,7 @@ export class UsersComponent implements OnInit {
     });
 
     ref.onClose.subscribe(user => {
-      this.users.push(user);
+      this.project.value!.users.push(user);
     });
   }
 

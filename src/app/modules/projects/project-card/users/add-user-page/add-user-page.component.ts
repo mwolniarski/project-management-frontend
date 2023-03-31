@@ -22,7 +22,14 @@ export class AddUserPageComponent {
     if(this.addUserForm.valid){
       const projectId = this.config.data.projectId;
 
-      this.projectService.addUserToProject(projectId, this.addUserForm.value.email, this.addUserForm.value.role.name).subscribe(user => this.ref.close(user));
+      this.projectService.addUserToProject(projectId, this.addUserForm.value.email, this.addUserForm.value.role.name)
+        .subscribe(user => {
+          const userModel = {
+            role: this.addUserForm.value.role.name,
+            email: this.addUserForm.value.email
+          };
+          this.ref.close(userModel)
+        });
     }
   }
 
