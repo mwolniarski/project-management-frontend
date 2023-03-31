@@ -1,8 +1,8 @@
-<p-table [value]="users" [tableStyle]="{'min-width': '60rem'}">
+<p-table [value]="getUsers()" [tableStyle]="{'min-width': '60rem'}">
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
       Products
-      <p-button icon="pi pi-refresh"></p-button>
+      <p-button icon="pi pi-plus" (click)="addUser()"></p-button>
     </div>
   </ng-template>
   <ng-template pTemplate="header">

@@ -12,16 +12,28 @@
 <p-treeTable [value]="taskGroups" (onNodeExpand)="onExpand($event)" (onNodeCollapse)="onCollapse($event)">
   <ng-template pTemplate="header">
     <tr>
-      <th *ngFor="let column of displayedColumns">{{column}}</th>
-      <th></th>
+      <th style="width: 30%">Name</th>
+      <th style="width: 10%">Owner</th>
+      <th style="width: 10%">Status</th>
+      <th style="width: 10%">Start date</th>
+      <th style="width: 10%">Due date</th>
+      <th style="width: 10%">Priority</th>
+      <th style="width: 10%"></th>
+      <th style="width: 10%"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
     <tr [ttRow]="rowNode">
-      <td>
+      <td ttEditableColumn>
         <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-        <p-button icon="pi pi-plus" styleClass="p-button-rounded p-button-text" (click)="createTask(rowData.id)" *ngIf="!rowData.status"></p-button>
-        {{ rowData.name }}
+<!--        <p-button icon="pi pi-plus" styleClass="p-button-rounded p-button-text" (click)="createTask(rowData.id)" *ngIf="!rowData.status"></p-button>-->
+        <p-treeTableCellEditor *ngIf="!rowData.status && userHasWriteRole(); else elseBlock">
+          <ng-template pTemplate="input">
+            <input pInputText type="text" [(ngModel)]="rowData['name']" (change)="editTaskGroup(rowData['name'], rowData.id)">
+          </ng-template>
+          <ng-template pTemplate="output">{{rowData['name']}}</ng-template>
+        </p-treeTableCellEditor>
+        <ng-template #elseBlock>{{rowData.name}}</ng-template>
       </td>
       <td>{{ rowData.owner }}</td>
       <td>{{ rowData.status }}</td>
@@ -29,8 +41,12 @@
       <td>{{ rowData.dueDate }}</td>
       <td>{{ rowData.priority }}</td>
       <td>
-        <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteTask(rowData.id)" *ngIf="rowData.status"></p-button>
-        <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteTaskGroup(rowData.id)" *ngIf="!rowData.status"></p-button>
+        <p-button label="Add Task" styleClass="p-button-warning p-button-text" (click)="createTask(rowData.id)" *ngIf="!rowData.status && userHasWriteRole()"></p-button>
+        <p-button label="Edit Task" styleClass="p-button-warning p-button-text" (click)="editTask(rowData)" *ngIf="rowData.status && userHasWriteRole()"></p-button>
+      </td>
+      <td>
+        <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteTask(rowData.id)" *ngIf="rowData.status && userHasWriteRole()"></p-button>
+        <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteTaskGroup(rowData.id)" *ngIf="!rowData.status && userHasWriteRole()"></p-button>
       </td>
     </tr>
   </ng-template>

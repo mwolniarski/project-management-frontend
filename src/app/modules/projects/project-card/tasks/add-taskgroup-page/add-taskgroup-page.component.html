@@ -1,0 +1,19 @@
+<form (ngSubmit)="submit()" #formModel="ngForm">
+  <div class="mb-3">
+    <label for="name" class="block text-900 font-medium mb-2">Task group name</label>
+    <input
+      id="name"
+      type="text"
+      placeholder="Task group name"
+      pInputText
+      [ngClass]="!taskGroup.valid && taskGroup.touched || !taskGroup.touched && formModel.submitted ? 'ng-invalid ng-dirty' : ''"
+      class="w-full"
+      ngModel
+      name="name"
+      required
+      #taskGroup="ngModel">
+    <small id="name-help" *ngIf="!taskGroup.valid && taskGroup.touched || !taskGroup.touched && formModel.submitted" class="p-error">Please enter task group</small>
+  </div>
+
+  <button pButton pRipple label="Create task group" class="w-full"></button>
+</form>

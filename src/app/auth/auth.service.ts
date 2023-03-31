@@ -9,6 +9,7 @@ import {LocalStorageService} from "./localStorage.service";
 import {Router} from "@angular/router";
 import {MessageService} from "primeng/api";
 import {environment} from "../../environments/environment";
+import {MessageServiceHelper} from "../service/messageServiceHelper.service";
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,7 @@ export class AuthService {
     private httpClient: HttpClient,
     private localStorage: LocalStorageService,
     private router: Router,
-    private messageService: MessageService) {
+    private messageService: MessageServiceHelper) {
   }
 
   register(request: RegistrationRequest){
@@ -34,10 +35,10 @@ export class AuthService {
         this.login(loginRequest);
       },
         () => {
-          this.displayMessage('error', 'Error occurred during registration attempt');
+          this.messageService.displayMessage('error', 'Error occurred during registration attempt');
         },
         () => {
-          this.displayMessage('success', 'You successfully registered!');
+          this.messageService.displayMessage('success', 'You successfully registered!');
         }
       );
   }
@@ -51,10 +52,10 @@ export class AuthService {
           this.handleAuthentication(request.username, response.accessToken, response.refreshToken, accessTokenExpirationTime, refreshTokenExpirationTime, true);
         },
         () => {
-          this.displayMessage('error', 'Error occurred during login attempt');
+          this.messageService.displayMessage('error', 'Error occurred during login attempt');
         },
         () => {
-          this.displayMessage('success', 'You successfully logged in!');
+          this.messageService.displayMessage('success', 'You successfully logged in!');
         }
       );
   }
@@ -91,10 +92,10 @@ export class AuthService {
         },
         () => {
           this.logout();
-          this.displayMessage('error', 'Error occurred during refresh session attempt');
+          this.messageService.displayMessage('error', 'Error occurred during refresh session attempt');
         },
         () => {
-          this.displayMessage('success', 'Session refreshed!');
+          this.messageService.displayMessage('success', 'Session refreshed!');
         }
       );
   }
@@ -107,13 +108,15 @@ export class AuthService {
       this.router.navigate(['']);
   }
 
-  displayMessage(type: string, content: string){
-    this.messageService.add({severity: type, summary: content});
-
-    setTimeout(() => this.messageService.clear(), 5000);
-  }
-
   getRequestUrl(resourceUrl: string){
     return `${this.baseUrl}${resourceUrl}`
+  }
+
+  getProfileImage(){
+    return this.httpClient.get<any>(this.getRequestUrl('api/profile/profileImage'));
+  }
+
+  setProfileImage(file: File){
+    return this.httpClient.post<any>(this.getRequestUrl('api/profile/profileImage'), file, {headers: new HttpHeaders('multipart/form-data')})
   }
 }

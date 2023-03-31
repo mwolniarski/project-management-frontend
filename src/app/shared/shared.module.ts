@@ -9,12 +9,16 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {MenubarModule} from "primeng/menubar";
 import {SidebarModule} from "primeng/sidebar";
 import {InputTextModule} from "primeng/inputtext";
-import {AppModule} from "../app.module";
 import {SidebarItemComponent} from "./components/sidebar/sidebar-item/sidebar-item.component";
 import {ProfileDetailsComponent} from "./components/header/profile-details/profile-details.component";
 import {SearchBarComponent} from "./components/header/search-bar/search-bar.component";
 import {ActivitiesComponent} from "./components/header/activities/activities.component";
 import {AuthService} from "../auth/auth.service";
+import {
+  EditUserProfilePageComponent
+} from "./components/header/profile-details/edit-user-profile-page/edit-user-profile-page.component";
+import {FileUploadModule} from "primeng/fileupload";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -25,7 +29,8 @@ import {AuthService} from "../auth/auth.service";
     SidebarItemComponent,
     ProfileDetailsComponent,
     SearchBarComponent,
-    ActivitiesComponent
+    ActivitiesComponent,
+    EditUserProfilePageComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +40,9 @@ import {AuthService} from "../auth/auth.service";
     SplitButtonModule,
     MenubarModule,
     SidebarModule,
-    InputTextModule
+    InputTextModule,
+    FileUploadModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent,

@@ -9,6 +9,10 @@ import {AuthService} from "./auth/auth.service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {AuthInterceptorService} from "./auth/auth-interceptor.service";
 import {InvalidTokenInterceptorService} from "./auth/invalidToken-interceptor.service";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
+import {MessageServiceHelper} from "./service/messageServiceHelper.service";
+import { EditUserProfilePageComponent } from './shared/components/header/profile-details/edit-user-profile-page/edit-user-profile-page.component';
 
 @NgModule({
   declarations: [
@@ -19,9 +23,10 @@ import {InvalidTokenInterceptorService} from "./auth/invalidToken-interceptor.se
     BrowserAnimationsModule,
     DefaultModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    ToastModule
   ],
-  providers: [AuthService,
+  providers: [AuthService, MessageService, MessageServiceHelper,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: InvalidTokenInterceptorService, multi: true}],
   exports: [

@@ -1,0 +1,8 @@
+<form (ngSubmit)="submit($event)" #formModel="ngForm">
+  <div class="mb-3">
+<!--    <label for="description" class="block text-900 font-medium mb-2">Project description</label>-->
+    <p-fileUpload [mode]="'basic'" name="myfile[]" [customUpload]="true" (uploadHandler)="submit($event)"></p-fileUpload>
+  </div>
+
+  <button pButton label="Save settings" class="w-full"></button>
+</form>

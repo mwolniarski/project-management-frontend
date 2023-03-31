@@ -9,6 +9,7 @@ import {TaskReadModel} from "../model/TaskReadModel.model";
 import {TaskWriteModel} from "../model/TaskWriteModel.model";
 import {BehaviorSubject} from "rxjs";
 import {environment} from "../../../../environments/environment";
+import {ProjectUserRole} from "../model/ProjectUserRole.model";
 
 @Injectable()
 export class ProjectService {
@@ -36,7 +37,11 @@ export class ProjectService {
   }
 
   deleteTaskGroup(taskGroupId: number){
-    return this.httpClient.delete<TaskReadModel>(this.getRequestUrl('taskGroups/delete/'+taskGroupId));
+    return this.httpClient.delete(this.getRequestUrl('taskGroups/delete/'+taskGroupId));
+  }
+
+  editTaskGroup(taskGroup: TaskGroupWriteModel, taskGroupId: number){
+    return this.httpClient.put<TaskGroupReadModel>(this.getRequestUrl('taskGroups/update/' + taskGroupId), taskGroup);
   }
 
   createTask(task: TaskWriteModel, taskGroupId: number){
@@ -44,7 +49,15 @@ export class ProjectService {
   }
 
   deleteTask(taskId: number){
-    return this.httpClient.delete<TaskReadModel>(this.getRequestUrl('tasks/delete/'+taskId));
+    return this.httpClient.delete(this.getRequestUrl('tasks/delete/'+taskId));
+  }
+
+  editTask(task: TaskWriteModel, taskId: number){
+    return this.httpClient.put<TaskReadModel>(this.getRequestUrl('tasks/update/' + taskId), task);
+  }
+
+  addUserToProject(projectId: number, email: string, role: ProjectUserRole){
+    return this.httpClient.post<TaskReadModel>(this.getRequestUrl('projects/addUser/' + projectId + '?email=' + email + '&role=' + role), '');
   }
 
   getRequestUrl(resourceUrl: string){

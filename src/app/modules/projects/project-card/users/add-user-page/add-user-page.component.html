@@ -1,0 +1,23 @@
+<form (ngSubmit)="submit()" #formModel="ngForm">
+  <div class="mb-3">
+    <label for="email" class="block text-900 font-medium mb-2">Email</label>
+    <input
+      id="email"
+      type="email"
+      placeholder="Email"
+      pInputText
+      [ngClass]="!email.valid && email.touched || !email.touched && formModel.submitted ? 'ng-invalid ng-dirty' : ''"
+      class="w-full"
+      ngModel
+      name="email"
+      required
+      email
+      #email="ngModel">
+    <small id="email-help" *ngIf="!email.valid && email.touched || !email.touched && formModel.submitted" class="p-error">Please enter email!</small>
+  </div>
+  <div class="mb-3">
+    <label for="role" class="block text-900 font-medium mb-2">Status</label>
+    <p-dropdown id="role" [options]="getRoleOptions()" ngModel name="role" optionLabel="name" #role="ngModel"></p-dropdown>
+  </div>
+  <button pButton pRipple label="Add user" class="w-full"></button>
+</form>

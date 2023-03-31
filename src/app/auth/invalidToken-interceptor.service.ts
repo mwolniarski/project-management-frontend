@@ -7,20 +7,22 @@ import {
   HttpInterceptor,
   HttpRequest
 } from "@angular/common/http";
-import {catchError, Observable, of, tap, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {AuthService} from "./auth.service";
+import {MessageServiceHelper} from "../service/messageServiceHelper.service";
 
 @Injectable()
 export class InvalidTokenInterceptorService implements HttpInterceptor{
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private messageService: MessageServiceHelper) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((err) => {
         if(err.status === 403){
-          this.authService.logout()
+          if(this.authService.user.value !== null)
+            this.messageService.displayMessage('warn', 'You are not authorized!');
         }
         return throwError(err);
       })

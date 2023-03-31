@@ -8,6 +8,14 @@ import {ProjectStatus} from "../../model/ProjectStatus.model";
 import {TaskStatus} from "../../model/TaskStatus.model";
 import {TaskPriority} from "../../model/TaskPriority.model";
 import {LocalStorageService} from "../../../../auth/localStorage.service";
+import {DialogService} from "primeng/dynamicdialog";
+import {AddTaskPageComponent} from "./add-task-page/add-task-page.component";
+import {TaskGroupReadModel} from "../../model/TaskGroupReadModel.model";
+import {AddTaskgroupPageComponent} from "./add-taskgroup-page/add-taskgroup-page.component";
+import {EditTaskPageComponent} from "./edit-task-page/edit-task-page.component";
+import {TaskReadModel} from "../../model/TaskReadModel.model";
+import {ProjectUserRole} from "../../model/ProjectUserRole.model";
+import {AuthService} from "../../../../auth/auth.service";
 
 @Component({
   selector: 'app-tasks',
@@ -21,7 +29,7 @@ export class TasksComponent implements OnInit {
 
   project = new BehaviorSubject<ProjectReadModel | null>(null);
 
-  constructor(private projectService: ProjectService, private localStorage: LocalStorageService) {}
+  constructor(private projectService: ProjectService, private localStorage: LocalStorageService, private dialogService: DialogService, private authService: AuthService) {}
   ngOnInit() {
     this.expandedRows = this.localStorage.loadExpandedData();
     this.mapToTreeData();
@@ -38,31 +46,34 @@ export class TasksComponent implements OnInit {
       }
     ];
 
-  displayedColumns = ["Name", "Owner", "Status", "Start date", "Due date", "Priority"];
-
   createTaskGroup(){
-    let taskGroup = {
-      name: 'TaskGroup 1',
-    };
-    if(this.project.value !== null){
-      this.projectService.createTaskGroup(taskGroup, this.project.value.id).subscribe(taskGroup => {
-        if(this.project.value !== null){
-          this.project.value.taskGroups.push(taskGroup);
-          this.mapToTreeData();
-        }
-      });
-    }
+    const ref = this.dialogService.open(AddTaskgroupPageComponent, {
+      data: {
+        projectId: this.project.value!.id
+      },
+      header: 'Add task group',
+      width: '30%',
+      height: '30%'
+    });
+    ref.onClose.subscribe((taskGroup: TaskGroupReadModel) => {
+      if(this.project.value !== null){
+        this.project.value.taskGroups.push(taskGroup);
+        this.mapToTreeData();
+      }
+    });
   }
 
   createTask(taskGroupId: number){
-    let task = {
-      name: 'Task 1',
-      status: TaskStatus.TO_DO,
-      priority: TaskPriority.HIGH,
-      description: '',
-      dueDate: new Date()
-    };
-    this.projectService.createTask(task, taskGroupId).subscribe(task => {
+    const ref = this.dialogService.open(AddTaskPageComponent, {
+      data: {
+        taskGroupId: taskGroupId
+      },
+      header: 'Add task',
+      width: '80%',
+      height: '80%'
+    });
+
+    ref.onClose.subscribe(task => {
       if(this.project.value !== null){
         this.project.value.taskGroups.filter(taskGroup => taskGroup.id === taskGroupId)[0].tasks.push(task);
         if(this.project.value.taskGroups.filter(taskGroup => taskGroup.id === taskGroupId)[0].tasks){
@@ -105,7 +116,8 @@ export class TasksComponent implements OnInit {
                   status: task.status,
                   startDate: task.dueDate,
                   dueDate: task.dueDate,
-                  priority: task.priority
+                  priority: task.priority,
+                  description: task.description
                 },
                 children: []
               }
@@ -153,6 +165,38 @@ export class TasksComponent implements OnInit {
     });
   }
 
+  editTask(taskModel: TaskReadModel){
+    let taskGroupId = 0;
+
+    this.project.value!.taskGroups.forEach(taskGroup => {
+      if(taskGroup.tasks.filter(task => task.id === taskModel.id).length > 0){
+        taskGroupId = taskGroup.id
+      }
+    });
+
+    const ref = this.dialogService.open(EditTaskPageComponent, {
+      data: {
+        task: taskModel,
+        taskId: taskModel.id
+      },
+      header: 'Edit task',
+      width: '80%',
+      height: '80%'
+    });
+
+    ref.onClose.subscribe(taskResp => {
+      let taskIndex = this.project.value!.taskGroups.filter(taskGroup => taskGroup.id === taskGroupId)[0].tasks.findIndex(task => task.id === taskResp.id);
+
+      this.project.value!.taskGroups.filter(taskGroup => taskGroup.id === taskGroupId)[0].tasks[taskIndex] = taskResp;
+
+      this.mapToTreeData();
+    });
+  }
+
+  editTaskGroup(taskGroupName: string, taskGroupId: number){
+    this.projectService.editTaskGroup({name: taskGroupName}, taskGroupId).subscribe();
+  }
+
   deleteTaskGroup(taskGroupId: number){
     this.projectService.deleteTaskGroup(taskGroupId).subscribe(() => {
       if(this.project.value !== null){
@@ -161,5 +205,16 @@ export class TasksComponent implements OnInit {
         this.mapToTreeData();
       }
     });
+  }
+
+  getLoggedUserForProject(){
+    if(this.project.value !== null && this.authService.user.value !== null){
+      return this.project.value.users.filter(user => user.email === this.authService.user.value!.email)[0].role;
+    }
+    return ProjectUserRole.USER;
+  }
+
+  userHasWriteRole(){
+    return this.getLoggedUserForProject() === ProjectUserRole.ADMIN;
   }
 }

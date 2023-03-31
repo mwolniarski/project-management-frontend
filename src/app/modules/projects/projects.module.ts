@@ -23,6 +23,12 @@ import {InputTextModule} from "primeng/inputtext";
 import {RippleModule} from "primeng/ripple";
 import {CalendarModule} from "primeng/calendar";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import {AddTaskgroupPageComponent} from "./project-card/tasks/add-taskgroup-page/add-taskgroup-page.component";
+import {AddTaskPageComponent} from "./project-card/tasks/add-task-page/add-task-page.component";
+import {DropdownModule} from "primeng/dropdown";
+import {EditorModule} from "primeng/editor";
+import {EditTaskPageComponent} from "./project-card/tasks/edit-task-page/edit-task-page.component";
+import {AddUserPageComponent} from "./project-card/users/add-user-page/add-user-page.component";
 
 
 
@@ -34,7 +40,11 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     OverviewComponent,
     TasksComponent,
     UsersComponent,
-    AddProjectPageComponent
+    AddProjectPageComponent,
+    AddTaskgroupPageComponent,
+    AddTaskPageComponent,
+    EditTaskPageComponent,
+    AddUserPageComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +61,9 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     InputTextModule,
     RippleModule,
     CalendarModule,
-    InputTextareaModule
+    InputTextareaModule,
+    DropdownModule,
+    EditorModule
   ],
   exports: [
     ProjectCardComponent,

@@ -38,6 +38,7 @@
   transition: all 0.4s ease;
   top: 50%;
   transform: translateY(-50%);
+  color: #343E4D;
 }
 .item-container.open li .tooltip{
   display: none;
