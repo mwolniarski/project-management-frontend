@@ -13,6 +13,9 @@ import {LoginPageComponent} from "./auth/login-page/login-page.component";
 import {AuthGuard} from "./auth/auth.guard";
 import {NotLoggedAuthGuard} from "./auth/notLoggedAuth.guard";
 import {CalendarComponent} from "./modules/calendar/calendar.component";
+import {
+  ConfirmRegisterPageComponent
+} from "./auth/registration-page/confirm-register-page/confirm-register-page.component";
 
 const routes: Routes = [
   {
@@ -24,6 +27,11 @@ const routes: Routes = [
     path: 'register',
     canActivate: [NotLoggedAuthGuard],
     component: RegistrationPageComponent
+  },
+  {
+    path: 'confirm/:id',
+    canActivate: [NotLoggedAuthGuard],
+    component: ConfirmRegisterPageComponent
   },
   {
     path: '',

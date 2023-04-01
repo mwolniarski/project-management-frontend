@@ -215,6 +215,6 @@ export class TasksComponent implements OnInit {
   }
 
   userHasWriteRole(){
-    return this.getLoggedUserForProject() === ProjectUserRole.ADMIN;
+    return this.getLoggedUserForProject() === ProjectUserRole.ADMIN || this.getLoggedUserForProject() === ProjectUserRole.SUPER_ADMIN;
   }
 }

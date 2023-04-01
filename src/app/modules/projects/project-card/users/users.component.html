@@ -12,6 +12,7 @@
       <th>Last name</th>
       <th>Email</th>
       <th>Role</th>
+      <th></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-user>
@@ -21,6 +22,7 @@
       <td>{{user.lastName}}</td>
       <td>{{user.email}}</td>
       <td>{{user.role}}</td>
+      <td><p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteUser(user.email)" *ngIf="userHasWriteRole() && user.role !== 'SUPER_ADMIN'"></p-button></td>
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">

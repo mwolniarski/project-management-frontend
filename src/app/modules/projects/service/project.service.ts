@@ -57,7 +57,11 @@ export class ProjectService {
   }
 
   addUserToProject(projectId: number, email: string, role: ProjectUserRole){
-    return this.httpClient.post<TaskReadModel>(this.getRequestUrl('projects/addUser/' + projectId + '?email=' + email + '&role=' + role), '');
+    return this.httpClient.post<any>(this.getRequestUrl('projects/addUser/' + projectId + '?email=' + email + '&role=' + role), '');
+  }
+
+  deleteUserFromProject(projectId: number, email: string){
+    return this.httpClient.delete<any>(this.getRequestUrl('projects/deleteUser/' + projectId + '?email=' + email));
   }
 
   getRequestUrl(resourceUrl: string){

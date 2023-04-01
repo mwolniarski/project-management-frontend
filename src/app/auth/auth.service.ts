@@ -26,21 +26,7 @@ export class AuthService {
   }
 
   register(request: RegistrationRequest){
-    this.httpClient.post<string>(this.getRequestUrl('api/registration'), request)
-      .subscribe(() => {
-        const loginRequest = {
-          username: request.email,
-          password: request.password
-        };
-        this.login(loginRequest);
-      },
-        () => {
-          this.messageService.displayMessage('error', 'Error occurred during registration attempt');
-        },
-        () => {
-          this.messageService.displayMessage('success', 'You successfully registered!');
-        }
-      );
+    return this.httpClient.post<string>(this.getRequestUrl('api/registration'), request);
   }
 
   login(request: LoginRequest){
@@ -98,6 +84,10 @@ export class AuthService {
           this.messageService.displayMessage('success', 'Session refreshed!');
         }
       );
+  }
+
+  confirmRegistration(token: string){
+    return this.httpClient.post<any>(this.getRequestUrl('api/registration/confirm?token=' + token), '');
   }
 
   handleAuthentication(email: string, accessToken: string, refreshToken: string, accessTokenExpirationDate: Date, refreshTokenExpirationDate: Date, redirect: boolean){

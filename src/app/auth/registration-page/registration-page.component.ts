@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../auth.service";
-import {Router} from "@angular/router";
+import {MessageServiceHelper} from "../../service/messageServiceHelper.service";
 
 @Component({
   selector: 'app-registration-page',
@@ -13,7 +13,9 @@ export class RegistrationPageComponent {
   // @ts-ignore
   @ViewChild('formModel') registerForm: NgForm;
 
-  constructor(private auth: AuthService) {}
+  isRegisterDone = false;
+
+  constructor(private auth: AuthService, private messageService: MessageServiceHelper) {}
 
   submit(){
     if(this.registerForm.valid){
@@ -24,7 +26,17 @@ export class RegistrationPageComponent {
         password: this.registerForm.value.password
       };
 
-      this.auth.register(request);
+      this.auth.register(request).subscribe(() => {
+          this.isRegisterDone = true;
+        },
+        () => {
+          this.messageService.displayMessage('error', 'Error occurred during registration attempt');
+        },
+        () => {
+
+          this.messageService.displayMessage('success', 'You successfully registered!');
+        }
+      );;
     }
   }
 

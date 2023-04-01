@@ -18,8 +18,8 @@ export class AddProjectPageComponent {
     if(this.addProjectForm.valid){
       let projectWriteModel = {
         name: this.addProjectForm.value.projectName,
-        startTime: this.addProjectForm.value.startDate.toISOString().slice(0, 10),
-        endTime: this.addProjectForm.value.endDate.toISOString().slice(0, 10),
+        startTime: this.addProjectForm.value.startDate !== '' ? this.addProjectForm.value.startDate.toISOString().slice(0, 10) : null,
+        endTime: this.addProjectForm.value.endDate !== '' ? this.addProjectForm.value.endDate.toISOString().slice(0, 10) : null,
         description: this.addProjectForm.value.description,
       };
       this.projectService.createProject(projectWriteModel).subscribe(project => this.ref.close(project));

@@ -20,11 +20,15 @@ import {NotLoggedAuthGuard} from "./notLoggedAuth.guard";
 import {MessageService} from "primeng/api";
 import {ToastModule} from "primeng/toast";
 import {MessageModule} from "primeng/message";
+import {ConfirmRegisterPageComponent} from "./registration-page/confirm-register-page/confirm-register-page.component";
+import {AvatarModule} from "primeng/avatar";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 @NgModule({
   declarations: [
     LoginPageComponent,
-    RegistrationPageComponent
+    RegistrationPageComponent,
+    ConfirmRegisterPageComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,8 @@ import {MessageModule} from "primeng/message";
     RouterModule,
     HttpClientModule,
     MessageModule,
-    ToastModule
+    ToastModule,
+    ProgressSpinnerModule
   ],
   providers: [AuthService, AuthGuard, LocalStorageService, NotLoggedAuthGuard, MessageService],
   exports: [],

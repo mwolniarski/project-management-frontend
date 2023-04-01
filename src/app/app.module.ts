@@ -12,7 +12,6 @@ import {InvalidTokenInterceptorService} from "./auth/invalidToken-interceptor.se
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import {MessageServiceHelper} from "./service/messageServiceHelper.service";
-import { EditUserProfilePageComponent } from './shared/components/header/profile-details/edit-user-profile-page/edit-user-profile-page.component';
 
 @NgModule({
   declarations: [
