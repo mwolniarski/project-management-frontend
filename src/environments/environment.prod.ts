@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://projectain-backend.herokuapp.com/'
+  baseUrl: 'http://34.118.69.30:8080/'
 }
