@@ -7,6 +7,8 @@ import {AddUserPageComponent} from "./add-user-page/add-user-page.component";
 import {ProjectUserRole} from "../../model/ProjectUserRole.model";
 import {AuthService} from "../../../../auth/auth.service";
 import {ProjectService} from "../../service/project.service";
+import {environment} from "../../../../../environments/environment";
+import {PermissionModel} from "../../model/Permission.model";
 
 @Component({
   selector: 'app-users',
@@ -41,21 +43,14 @@ export class UsersComponent {
     return [];
   }
 
-  getLoggedUserForProject(){
-    if(this.project.value !== null && this.authService.user.value !== null){
-      return this.project.value.users.filter(user => user.email === this.authService.user.value!.email)[0].role;
-    }
-    return ProjectUserRole.USER;
-  }
-
-  userHasWriteRole(){
-    return this.getLoggedUserForProject() === ProjectUserRole.ADMIN || this.getLoggedUserForProject() === ProjectUserRole.SUPER_ADMIN;
-  }
-
   deleteUser(email: string){
     const projectId = this.project.value!.id;
 
     this.projectService.deleteUserFromProject(projectId, email)
       .subscribe(user => this.project.value!.users = this.project.value!.users.filter(user => user.email !== email));
+  }
+
+  canDeleteUserFromProject(){
+    return this.authService.userHavePermission(PermissionModel.PROJECT_REMOVE_USER);
   }
 }

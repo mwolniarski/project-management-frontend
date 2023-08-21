@@ -1,45 +1,47 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {ProjectService} from "../../../service/project.service";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {TaskPriority} from "../../../model/TaskPriority.model";
 import {ProjectUserRole} from "../../../model/ProjectUserRole.model";
+import {OrganizationUserReadModel} from "../../../model/UserReadModel.model";
+import {UserSettingsService} from "../../../../../shared/services/userSettings.service";
 
 @Component({
   selector: 'app-add-user-page',
   templateUrl: './add-user-page.component.html',
   styleUrls: ['./add-user-page.component.css']
 })
-export class AddUserPageComponent {
+export class AddUserPageComponent implements OnInit{
 
 
   // @ts-ignore
   @ViewChild('formModel') addUserForm: NgForm;
 
-  constructor(private projectService: ProjectService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) {}
+  // @ts-ignore
+  orgUsers: Array<OrganizationUserReadModel>;
+
+  constructor(private projectService: ProjectService, public ref: DynamicDialogRef, public config: DynamicDialogConfig, private userSettings: UserSettingsService) {}
 
   submit(){
     if(this.addUserForm.valid){
       const projectId = this.config.data.projectId;
 
-      this.projectService.addUserToProject(projectId, this.addUserForm.value.email, this.addUserForm.value.role.name)
+      this.projectService.addUserToProject(projectId, this.addUserForm.value.user.email, ProjectUserRole.INTERNAL)
         .subscribe(user => {
           const userModel = {
-            role: this.addUserForm.value.role.name,
-            email: this.addUserForm.value.email
+            role: ProjectUserRole.INTERNAL,
+            email: this.addUserForm.value.user.email
           };
           this.ref.close(userModel)
         });
     }
   }
 
-  getRoleOptions() {
-    return  Object.keys(ProjectUserRole).filter((item) => {
-      return isNaN(Number(item));
-    }).map(item => {
-      return {
-        name: item,
-      }
-    });
+  getOrgUsers(){
+    this.userSettings.getOrgUsers().subscribe(users => this.orgUsers = users);
+  }
+
+  ngOnInit(): void {
+    this.getOrgUsers();
   }
 }

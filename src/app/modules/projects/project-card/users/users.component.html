@@ -17,12 +17,15 @@
   </ng-template>
   <ng-template pTemplate="body" let-user>
     <tr>
-      <td><img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/'" [alt]="user.id" width="100" class="shadow-4" /></td>
+      <td>
+        <img src="{{'data:image/jpg;base64,' + user.profileImage}}" *ngIf="user.profileImage !== null" class="profile-image"/>
+        <i class="pi pi-user" style="font-size: 2.5rem" *ngIf="user.profileImage === null"></i>
+      </td>
       <td>{{user.firstName}}</td>
       <td>{{user.lastName}}</td>
       <td>{{user.email}}</td>
-      <td>{{user.role}}</td>
-      <td><p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteUser(user.email)" *ngIf="userHasWriteRole() && user.role !== 'SUPER_ADMIN'"></p-button></td>
+      <td>{{user.role.name}}</td>
+      <td><p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteUser(user.email)" *ngIf="canDeleteUserFromProject()"></p-button></td>
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">

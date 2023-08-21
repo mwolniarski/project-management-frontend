@@ -1,9 +1,11 @@
 <div class="profile-details-container">
   <div (click)="editUserProfile()">
-    <img src="https://randomuser.me/api/portraits/men/53.jpg" alt="user">
+    <img src="{{'data:image/jpg;base64,' + this.user?.userDetails?.value?.profileImage}}" alt="user"
+         *ngIf="this.user?.userDetails?.value?.profileImage !== null" width="50" height="100">
+    <i class="pi pi-user" style="font-size: 2.5rem" *ngIf="this.user?.userDetails?.value?.profileImage === null"></i>
   </div>
   <div class="welcome-text">
     Hi,<br>
-    wolniarski
+    {{this.user?.userDetails?.value?.firstName}}
   </div>
 </div>

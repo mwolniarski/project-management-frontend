@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TreeNode} from "primeng/api";
-import {ActivatedRoute} from "@angular/router";
 import {ProjectService} from "../../service/project.service";
 import {ProjectReadModel} from "../../model/ProjectReadModel.model";
-import {BehaviorSubject, map, take, tap} from "rxjs";
-import {ProjectStatus} from "../../model/ProjectStatus.model";
-import {TaskStatus} from "../../model/TaskStatus.model";
-import {TaskPriority} from "../../model/TaskPriority.model";
+import {BehaviorSubject, map} from "rxjs";
 import {LocalStorageService} from "../../../../auth/localStorage.service";
 import {DialogService} from "primeng/dynamicdialog";
 import {AddTaskPageComponent} from "./add-task-page/add-task-page.component";
@@ -14,8 +10,8 @@ import {TaskGroupReadModel} from "../../model/TaskGroupReadModel.model";
 import {AddTaskgroupPageComponent} from "./add-taskgroup-page/add-taskgroup-page.component";
 import {EditTaskPageComponent} from "./edit-task-page/edit-task-page.component";
 import {TaskReadModel} from "../../model/TaskReadModel.model";
-import {ProjectUserRole} from "../../model/ProjectUserRole.model";
 import {AuthService} from "../../../../auth/auth.service";
+import {PermissionModel} from "../../model/Permission.model";
 
 @Component({
   selector: 'app-tasks',
@@ -66,7 +62,8 @@ export class TasksComponent implements OnInit {
   createTask(taskGroupId: number){
     const ref = this.dialogService.open(AddTaskPageComponent, {
       data: {
-        taskGroupId: taskGroupId
+        taskGroupId: taskGroupId,
+        users: this.project.value!.users!
       },
       header: 'Add task',
       width: '80%',
@@ -74,6 +71,7 @@ export class TasksComponent implements OnInit {
     });
 
     ref.onClose.subscribe(task => {
+      console.log(task)
       if(this.project.value !== null){
         this.project.value.taskGroups.filter(taskGroup => taskGroup.id === taskGroupId)[0].tasks.push(task);
         if(this.project.value.taskGroups.filter(taskGroup => taskGroup.id === taskGroupId)[0].tasks){
@@ -117,7 +115,8 @@ export class TasksComponent implements OnInit {
                   startDate: task.dueDate,
                   dueDate: task.dueDate,
                   priority: task.priority,
-                  description: task.description
+                  description: task.description,
+                  estimatedWorkTime: task.estimatedWorkTime
                 },
                 children: []
               }
@@ -177,7 +176,8 @@ export class TasksComponent implements OnInit {
     const ref = this.dialogService.open(EditTaskPageComponent, {
       data: {
         task: taskModel,
-        taskId: taskModel.id
+        taskId: taskModel.id,
+        users: this.project.value!.users!
       },
       header: 'Edit task',
       width: '80%',
@@ -207,14 +207,23 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  getLoggedUserForProject(){
-    if(this.project.value !== null && this.authService.user.value !== null){
-      return this.project.value.users.filter(user => user.email === this.authService.user.value!.email)[0].role;
-    }
-    return ProjectUserRole.USER;
+  canDeleteTaskGroup(){
+    return this.authService.userHavePermission(PermissionModel.TASK_GROUP_DELETE);
   }
 
-  userHasWriteRole(){
-    return this.getLoggedUserForProject() === ProjectUserRole.ADMIN || this.getLoggedUserForProject() === ProjectUserRole.SUPER_ADMIN;
+  canDeleteTask(){
+    return this.authService.userHavePermission(PermissionModel.TASK_DELETE);
+  }
+
+  canCreateTask(){
+    return this.authService.userHavePermission(PermissionModel.TASK_CREATE);
+  }
+
+  canUpdateTask(){
+    return this.authService.userHavePermission(PermissionModel.TASK_UPDATE);
+  }
+
+  canUpdateTaskGroup(){
+    return this.authService.userHavePermission(PermissionModel.TASK_GROUP_UPDATE);
   }
 }

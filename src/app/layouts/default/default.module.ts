@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {DefaultComponent} from "./default.component";
 import {RouterOutlet} from "@angular/router";
-import {DashboardComponent} from "../../modules/dashboard/dashboard.component";
 import {SharedModule} from "../../shared/shared.module";
 import {ProjectsModule} from "../../modules/projects/projects.module";
 import {SidebarModule} from "primeng/sidebar";
@@ -11,13 +10,13 @@ import {MenubarModule} from "primeng/menubar";
 import {InputTextModule} from "primeng/inputtext";
 import {CalendarComponent} from "../../modules/calendar/calendar.component";
 import {HttpClientModule} from "@angular/common/http";
+import {DashboardModule} from "../../modules/dashboard/dashboard.module";
 
 
 
 @NgModule({
   declarations: [
     DefaultComponent,
-    DashboardComponent,
     CalendarComponent
   ],
   exports: [
@@ -32,7 +31,8 @@ import {HttpClientModule} from "@angular/common/http";
     ButtonModule,
     MenubarModule,
     InputTextModule,
-    HttpClientModule
+    HttpClientModule,
+    DashboardModule
   ]
 })
 export class DefaultModule { }

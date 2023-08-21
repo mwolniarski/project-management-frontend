@@ -26,7 +26,9 @@ export class AddTaskPageComponent {
         status: this.addTaskForm.value.status.name,
         priority: this.addTaskForm.value.priority.name,
         description: this.addTaskForm.value.description,
-        dueDate: this.addTaskForm.value.dueDate
+        dueDate: this.addTaskForm.value.dueDate,
+        estimatedWorkTime: this.addTaskForm.value.estimatedWorkTime,
+        owner: {id: this.addTaskForm.value.owner.id}
       };
       this.projectService.createTask(task, taskGroupId).subscribe(task => this.ref.close(task));
     }
@@ -40,6 +42,18 @@ export class AddTaskPageComponent {
           name: item,
         }
       });
+  }
+
+  getProjectUsers(){
+    // @ts-ignore
+    return this.config.data.users.map(user => {
+      return {
+        nick: user.nick,
+        fullName: user.firstName + " " + user.lastName,
+        profileImage: user.profileImage,
+        id: user.id
+      }
+    });
   }
 
   getPriorityOptions() {

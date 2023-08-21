@@ -1,8 +1,210 @@
-<form (ngSubmit)="submit($event)" #formModel="ngForm">
-  <div class="mb-3">
-<!--    <label for="description" class="block text-900 font-medium mb-2">Project description</label>-->
-    <p-fileUpload [mode]="'basic'" name="myfile[]" [customUpload]="true" (uploadHandler)="submit($event)"></p-fileUpload>
-  </div>
+<p-tabMenu [model]="items!" [styleClass]="'tab-menu'" [(activeItem)]="activeItem"></p-tabMenu>
 
-  <button pButton label="Save settings" class="w-full"></button>
-</form>
+<ng-template [ngIf]="activeItem.label === 'Profile settings'" [ngIfElse]="organization">
+  <div>
+    <form (ngSubmit)="submit($event)" #formModel="ngForm">
+      <div class="mb-3">
+        <label for="profile-image" class="block text-900 font-medium mb-2">Profile image</label>
+        <p-fileUpload [mode]="'basic'" name="myfile[]" [customUpload]="true" (uploadHandler)="submit($event)" id="profile-image"></p-fileUpload>
+      </div>
+
+      <div class="mb-3">
+        <label for="first-name" class="block text-900 font-medium mb-2">First name</label>
+        <input
+          id="first-name"
+          type="text"
+          placeholder="First name"
+          pInputText
+          [ngClass]="!userFirstName.valid && userFirstName.touched || !userFirstName.touched && formModel.submitted ? 'ng-invalid ng-dirty' : ''"
+          class="w-full"
+          [(ngModel)]="user!.userDetails.value!.firstName"
+          name="userFirstName"
+          required
+          #userFirstName="ngModel">
+        <small id="first-name-help" *ngIf="!userFirstName.valid && userFirstName.touched || !userFirstName.touched && formModel.submitted" class="p-error">Please enter task name!</small>
+      </div>
+
+      <div class="mb-3">
+        <label for="last-name" class="block text-900 font-medium mb-2">Last name</label>
+        <input
+          id="last-name"
+          type="text"
+          placeholder="Last name"
+          pInputText
+          [ngClass]="!userLastName.valid && userLastName.touched || !userLastName.touched && formModel.submitted ? 'ng-invalid ng-dirty' : ''"
+          class="w-full"
+          [(ngModel)]="user!.userDetails.value!.lastName"
+          name="userLastName"
+          required
+          #userLastName="ngModel">
+        <small id="last-name-help" *ngIf="!userLastName.valid && userLastName.touched || !formModel.touched && formModel.submitted" class="p-error">Please enter task name!</small>
+      </div>
+
+      <button pButton label="Save settings" class="w-full" type="submit" id="profile-save"></button>
+    </form>
+  </div>
+</ng-template>
+<ng-template #organization>
+  <div>
+    <p-button label="Delete organization" (click)="deleteOrganization()" styleClass="p-button-danger"></p-button>
+    <form (ngSubmit)="saveOrganizationSettings()" #organizationSettingsForm="ngForm">
+
+      <p-fieldset [legend]="'Organization info'">
+        <div class="mb-3">
+          <label for="name" class="block text-900 font-medium mb-2">Organization name</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Organization name"
+            pInputText
+            [ngClass]="!orgName.valid && orgName.touched || !orgName.touched && organizationSettingsForm.submitted ? 'ng-invalid ng-dirty' : ''"
+            class="w-full"
+            ngModel
+            name="orgName"
+            required
+            [(ngModel)]="organizationDetails!.name"
+            #orgName="ngModel">
+        </div>
+      </p-fieldset>
+      <button pButton label="Save settings" class="w-full" type="submit" id="organization-save"></button>
+    </form>
+      <p-fieldset [legend]="'Add role'">
+        <form (ngSubmit)="addRoleToOrganization()" #addRole="ngForm">
+          <div class="mb-3">
+            <label for="roleName" class="block text-900 font-medium mb-2">Role name</label>
+            <input
+              id="roleName"
+              type="text"
+              placeholder="Role name"
+              pInputText
+              [ngClass]="!roleName.valid && roleName.touched || !roleName.touched && organizationSettingsForm.submitted ? 'ng-invalid ng-dirty' : ''"
+              class="w-full"
+              ngModel
+              name="roleName"
+              required
+              #roleName="ngModel">
+          </div>
+          <div class="mb-3">
+            <label for="name" class="block text-900 font-medium mb-2">Permissions</label>
+            <p-multiSelect [options]="permissions" ngModel optionLabel="name" name="permissions"></p-multiSelect>
+          </div>
+          <button pButton label="Save role" class="w-full" type="submit" id="saveRole"></button>
+        </form>
+      </p-fieldset>
+
+      <p-fieldset [legend]="'Roles'">
+        <p-table [value]="roles" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Name</th>
+              <th>Permissions</th>
+              <td>Delete</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-role>
+            <tr>
+              <td>{{ role.name }}</td>
+              <td>{{ mapPermissions(role) }}</td>
+              <td>
+                <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteRole(role.id)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-fieldset>
+
+      <p-fieldset [legend]="'Add user'">
+        <form (ngSubmit)="addUserToOrganization()" #addUser="ngForm">
+          <div class="mb-3">
+            <label for="firstName" class="block text-900 font-medium mb-2">First name</label>
+            <input
+              id="firstName"
+              type="text"
+              placeholder="First name"
+              pInputText
+              [ngClass]="!firstName.valid && firstName.touched || !firstName.touched && addUser.submitted  ? 'ng-invalid ng-dirty' : ''"
+              class="w-full"
+              ngModel
+              name="firstName"
+              required
+              #firstName="ngModel">
+            <small id="firstName-help" *ngIf="!firstName.valid && firstName.touched || !firstName.touched && addUser.submitted " class="p-error">Please enter your first name!</small>
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="block text-900 font-medium mb-2">Last name</label>
+            <input
+              id="lastName"
+              type="text"
+              placeholder="Last name"
+              pInputText
+              [ngClass]="!lastName.valid && lastName.touched || !lastName.touched && addUser.submitted  ? 'ng-invalid ng-dirty' : ''"
+              class="w-full"
+              ngModel
+              name="lastName"
+              required
+              #lastName="ngModel">
+            <small id="lastName-help" *ngIf="!lastName.valid && lastName.touched || !lastName.touched && addUser.submitted " class="p-error">Please enter your last name!</small>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="block text-900 font-medium mb-2">Email</label>
+            <input
+              id="email"
+              type="text"
+              placeholder="Email address"
+              pInputText
+              [ngClass]="!email.valid && email.touched || !email.touched && addUser.submitted  ? 'ng-invalid ng-dirty' : ''"
+              class="w-full"
+              ngModel
+              name="email"
+              email
+              required
+              #email="ngModel">
+            <small id="email-help" *ngIf="!email.valid && email.touched || !email.touched && addUser.submitted " class="p-error">Please enter a valid email!</small>
+          </div>
+
+          <div class="mb-3">
+            <label for="role" class="block text-900 font-medium mb-2">Roles</label>
+            <p-dropdown id="role" [options]="roles" ngModel name="role" optionLabel="name" [style]="{'width':'100%'}">
+              <ng-template let-role pTemplate="role">
+                {{role.name}}
+              </ng-template>
+            </p-dropdown>
+          </div>
+
+          <button pButton pRipple label="Add user" icon="pi pi-user" class="w-full" type="submit"></button>
+        </form>
+      </p-fieldset>
+
+      <p-fieldset [legend]="'Users'">
+        <p-table [value]="orgUsers" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Delete</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user>
+            <tr>
+              <td>
+                <img src="{{'data:image/jpg;base64,' + user.profileImage}}" alt="user"
+                                 *ngIf="user.profileImage !== null" width="50px" height="50px" [style]="{borderRadius: '50%'}">
+                <i class="pi pi-user" style="font-size: 2.5rem" *ngIf="user.profileImage === null"></i>
+              </td>
+              <td>{{ user.firstName + ' ' + user.lastName }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role.name }}</td>
+              <td>
+                <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteUserFromOrg(user.email)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-fieldset>
+  </div>
+</ng-template>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

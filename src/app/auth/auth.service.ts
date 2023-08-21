@@ -7,14 +7,17 @@ import {User} from "./model/User.model";
 import {LoginResponse} from "./model/LoginResponse.model";
 import {LocalStorageService} from "./localStorage.service";
 import {Router} from "@angular/router";
-import {MessageService} from "primeng/api";
 import {environment} from "../../environments/environment";
 import {MessageServiceHelper} from "../service/messageServiceHelper.service";
+import {ProfileDetails} from "./model/ProfileDetails";
+import {Notification} from "./model/Notification";
+import {PermissionModel} from "../modules/projects/model/Permission.model";
 
 @Injectable()
 export class AuthService {
 
   user = new BehaviorSubject<User | null>(null);
+  notifications = new BehaviorSubject<Array<Notification> | null>(null);
 
   baseUrl = environment.baseUrl;
 
@@ -91,9 +94,10 @@ export class AuthService {
   }
 
   handleAuthentication(email: string, accessToken: string, refreshToken: string, accessTokenExpirationDate: Date, refreshTokenExpirationDate: Date, redirect: boolean){
-    let user = new User(email, accessToken, refreshToken, accessTokenExpirationDate, refreshTokenExpirationDate);
+    let user = new User(email, accessToken, refreshToken, new BehaviorSubject<ProfileDetails | null>(null), accessTokenExpirationDate, refreshTokenExpirationDate);
     this.user.next(user);
     this.localStorage.saveUserData(user);
+    this.getUserProfileDetails();
     if (redirect)
       this.router.navigate(['']);
   }
@@ -102,11 +106,37 @@ export class AuthService {
     return `${this.baseUrl}${resourceUrl}`
   }
 
-  getProfileImage(){
-    return this.httpClient.get<any>(this.getRequestUrl('api/profile/profileImage'));
+  getUserProfileDetails(){
+    this.httpClient.get<ProfileDetails>(this.getRequestUrl('api/profile/profile-details'))
+      .subscribe(profileDetails => this.user.value?.userDetails.next(profileDetails));
   }
 
-  setProfileImage(file: File){
-    return this.httpClient.post<any>(this.getRequestUrl('api/profile/profileImage'), file, {headers: new HttpHeaders('multipart/form-data')})
+  getNotifications(){
+    this.httpClient.get<Array<Notification>>(this.getRequestUrl('api/notifications'))
+      .subscribe(notifications => this.notifications.next(notifications));
+  }
+
+  getLoggedUserPermissions(){
+    if(this.user.value?.userDetails.value?.permissions){
+      return this.user.value?.userDetails.value?.permissions;
+    }
+    return [];
+  }
+
+  userHavePermission(targetPermission: PermissionModel){
+    return this.getLoggedUserPermissions()?.includes(targetPermission) ||
+      this.getLoggedUserPermissions()?.includes(PermissionModel.ALLOW_ALL);
+  }
+
+  resetPassword(password: string, token: string){
+    return this.httpClient.post(this.getRequestUrl('api/password/reset/' + token), password);
+  }
+
+  updateNotification(notificationId: number){
+    return this.httpClient.post(this.getRequestUrl('api/notifications/' + notificationId), '');
+  }
+
+  initResetPassword(email: string){
+    return this.httpClient.post(this.getRequestUrl('api/password/reset?email=' + email), '');
   }
 }

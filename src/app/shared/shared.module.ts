@@ -19,6 +19,17 @@ import {
 } from "./components/header/profile-details/edit-user-profile-page/edit-user-profile-page.component";
 import {FileUploadModule} from "primeng/fileupload";
 import {FormsModule} from "@angular/forms";
+import {BadgeModule} from "primeng/badge";
+import {TabMenuModule} from "primeng/tabmenu";
+import {UserSettingsService} from "./services/userSettings.service";
+import {ConfirmDialog, ConfirmDialogModule} from "primeng/confirmdialog";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {FieldsetModule} from "primeng/fieldset";
+import {TableModule} from "primeng/table";
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
+import {OverlayPanelModule} from "primeng/overlaypanel";
+import {DividerModule} from "primeng/divider";
 
 
 
@@ -42,12 +53,21 @@ import {FormsModule} from "@angular/forms";
     SidebarModule,
     InputTextModule,
     FileUploadModule,
-    FormsModule
+    FormsModule,
+    BadgeModule,
+    TabMenuModule,
+    ConfirmDialogModule,
+    FieldsetModule,
+    TableModule,
+    DropdownModule,
+    MultiSelectModule,
+    OverlayPanelModule,
+    DividerModule
   ],
   exports: [
     HeaderComponent,
     SidebarComponent
   ],
-  providers: [AuthService]
+  providers: [UserSettingsService, AuthService, ConfirmationService, MessageService]
 })
 export class SharedModule { }

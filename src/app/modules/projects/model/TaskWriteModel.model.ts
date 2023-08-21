@@ -7,4 +7,6 @@ export interface TaskWriteModel {
   priority: TaskPriority;
   description: string;
   dueDate: Date;
+  owner?: {id: number, nick?: string, fullName?: string, profileImage?: string, email?: string};
+  estimatedWorkTime: number;
 }

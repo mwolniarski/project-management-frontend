@@ -16,12 +16,38 @@ import {CalendarComponent} from "./modules/calendar/calendar.component";
 import {
   ConfirmRegisterPageComponent
 } from "./auth/registration-page/confirm-register-page/confirm-register-page.component";
+import {
+  ResetPasswordConfirmationPageComponent
+} from "./auth/reset-password-confirmation-page/reset-password-confirmation-page.component";
+import {ResetPasswordPageComponent} from "./auth/reset-password-page/reset-password-page.component";
+import {
+  ProjectTimeEntryComponent
+} from "./modules/projects/project-card/project-time-entry/project-time-entry.component";
 
 const routes: Routes = [
   {
     path: 'login',
     canActivate: [NotLoggedAuthGuard],
     component: LoginPageComponent,
+  },
+  {
+    path: 'reset',
+    canActivate: [NotLoggedAuthGuard],
+    children: [
+      {
+        path: 'password',
+        children: [
+          {
+            path: '',
+            component: ResetPasswordPageComponent
+          },
+          {
+            path: ':token',
+            component: ResetPasswordConfirmationPageComponent
+          }
+        ]
+      },
+    ]
   },
   {
     path: 'register',
@@ -40,12 +66,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DashboardComponent
+        // component: DashboardComponent
+        component: ProjectsComponent
       },
-      {
-        path: 'calendar',
-        component: CalendarComponent
-      },
+      // {
+      //   path: 'calendar',
+      //   component: CalendarComponent
+      // },
       {
         path: 'projects',
         component: ProjectsComponent,
@@ -54,10 +81,10 @@ const routes: Routes = [
             path: ':id',
             component: ProjectCardComponent,
             children: [
-              {
-                path: '',
-                component: OverviewComponent,
-              },
+              // {
+              //   path: '',
+              //   component: OverviewComponent,
+              // },
               {
                 path: 'tasks',
                 component: TasksComponent,
@@ -65,6 +92,10 @@ const routes: Routes = [
               {
                 path: 'users',
                 component: UsersComponent,
+              },
+              {
+                path: 'timesheet',
+                component: ProjectTimeEntryComponent,
               }
             ]
           },

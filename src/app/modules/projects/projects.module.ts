@@ -29,6 +29,22 @@ import {DropdownModule} from "primeng/dropdown";
 import {EditorModule} from "primeng/editor";
 import {EditTaskPageComponent} from "./project-card/tasks/edit-task-page/edit-task-page.component";
 import {AddUserPageComponent} from "./project-card/users/add-user-page/add-user-page.component";
+import {ChartModule} from "primeng/chart";
+import {CardModule} from "primeng/card";
+import {CommentsComponent} from "./project-card/tasks/edit-task-page/comments/comments.component";
+import {CommentComponent} from "./project-card/tasks/edit-task-page/comments/comment/comment.component";
+import {AddCommentComponent} from "./project-card/tasks/edit-task-page/comments/add-comment/add-comment.component";
+import {OverlayPanelModule} from "primeng/overlaypanel";
+import {DataViewModule} from "primeng/dataview";
+import {
+  EditCommentsComponent
+} from "./project-card/tasks/edit-task-page/comments/edit-comments/edit-comments.component";
+import {AuthService} from "../../auth/auth.service";
+import {TaskHistoryComponent} from "./project-card/tasks/edit-task-page/task-history/task-history.component";
+import {FieldsetModule} from "primeng/fieldset";
+import {UserSettingsService} from "../../shared/services/userSettings.service";
+import { TimeEntryComponent } from './project-card/tasks/edit-task-page/time-entry/time-entry.component';
+import { ProjectTimeEntryComponent } from './project-card/project-time-entry/project-time-entry.component';
 
 
 
@@ -44,32 +60,44 @@ import {AddUserPageComponent} from "./project-card/users/add-user-page/add-user-
     AddTaskgroupPageComponent,
     AddTaskPageComponent,
     EditTaskPageComponent,
-    AddUserPageComponent
+    AddUserPageComponent,
+    CommentsComponent,
+    CommentComponent,
+    AddCommentComponent,
+    EditCommentsComponent,
+    TaskHistoryComponent,
+    TimeEntryComponent,
+    ProjectTimeEntryComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TabMenuModule,
-    ToolbarModule,
-    ButtonModule,
-    SplitButtonModule,
-    TableModule,
-    ProgressBarModule,
-    TreeTableModule,
-    DynamicDialogModule,
-    FormsModule,
-    InputTextModule,
-    RippleModule,
-    CalendarModule,
-    InputTextareaModule,
-    DropdownModule,
-    EditorModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        TabMenuModule,
+        ToolbarModule,
+        ButtonModule,
+        SplitButtonModule,
+        TableModule,
+        ProgressBarModule,
+        TreeTableModule,
+        DynamicDialogModule,
+        FormsModule,
+        InputTextModule,
+        RippleModule,
+        CalendarModule,
+        InputTextareaModule,
+        DropdownModule,
+        EditorModule,
+        ChartModule,
+        CardModule,
+        OverlayPanelModule,
+        DataViewModule,
+        FieldsetModule
+    ],
   exports: [
     ProjectCardComponent,
     ProjectListComponent,
     ProjectsComponent
   ],
-  providers: [ProjectService, LocalStorageService, DialogService]
+  providers: [ProjectService, LocalStorageService, DialogService, AuthService, UserSettingsService]
 })
 export class ProjectsModule { }

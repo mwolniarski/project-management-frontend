@@ -1,1 +1,13 @@
-<p>overview works!</p>
+<div class="row">
+  <p-card header="Number of overdue tasks">
+    {{20}}
+  </p-card>
+</div>
+<div class="row">
+  <p-card header="Number of tasks by priority">
+    <p-chart type="pie" [data]="tasksByPriorityData" [options]="options" width="300" height="300"></p-chart>
+  </p-card>
+  <p-card header="Completed tasks to uncompleted tasks">
+    <p-chart type="pie" [data]="allTasksData" [options]="options" width="300" height="300"></p-chart>
+  </p-card>
+</div>

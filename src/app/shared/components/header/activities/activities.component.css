@@ -6,3 +6,15 @@
 .activities-container{
   margin-right: 30px;
 }
+
+.notification {
+  cursor: pointer;
+}
+
+.notificationButton {
+  cursor: pointer;
+}
+
+.notificationUnread {
+  color: #9cf39c;
+}

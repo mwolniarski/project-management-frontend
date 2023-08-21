@@ -10,5 +10,6 @@ export interface TaskReadModel {
   description: string;
   dueDate: Date;
   owner: UserReadModel;
+  estimatedWorkTime: number;
   watchers: Array<UserReadModel>;
 }

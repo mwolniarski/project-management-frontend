@@ -23,12 +23,16 @@ import {MessageModule} from "primeng/message";
 import {ConfirmRegisterPageComponent} from "./registration-page/confirm-register-page/confirm-register-page.component";
 import {AvatarModule} from "primeng/avatar";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
+import { ResetPasswordConfirmationPageComponent } from './reset-password-confirmation-page/reset-password-confirmation-page.component';
 
 @NgModule({
   declarations: [
     LoginPageComponent,
     RegistrationPageComponent,
-    ConfirmRegisterPageComponent
+    ConfirmRegisterPageComponent,
+    ResetPasswordPageComponent,
+    ResetPasswordConfirmationPageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,18 @@
+<div class="comment-container" *ngIf="!isEdited; else editedComment">
+  <div class="comment-user-image">
+    <img src="{{'data:image/jpg;base64,' + comment.createdBy.profileImage}}" *ngIf="comment.createdBy.profileImage !== null" class="profile-image"/>
+    <i class="pi pi-user" style="font-size: 2.5rem" *ngIf="comment.createdBy.profileImage === null"></i>
+  </div>
+  <div class="comment-content">
+    <div>{{comment.createdBy.firstName + ' ' + comment.createdBy.lastName}} {{comment.createdTime}}</div>
+    <div>
+      <p [innerHTML]="comment.content"></p>
+    </div>
+  </div>
+  <div>
+    <i class="pi pi-pencil edit-button" *ngIf="comment.createdBy.email === getActualUserEmail()" (click)="isEdited=true"></i>
+  </div>
+</div>
+<ng-template #editedComment>
+  <app-edit-comments [taskId]="taskId" [(comment)]="comment" [usersList]="this.usersList" [(isEdited)]="isEdited"></app-edit-comments>
+</ng-template>

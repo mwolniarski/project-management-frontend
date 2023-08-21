@@ -1,4 +1,17 @@
 <div class="activities-container">
-  <i class="pi pi-history"></i>
-  <i class="pi pi-bell"></i>
+<!--  <i class="pi pi-history"></i>-->
+  <i class="pi pi-bell notificationButton" pBadge [value]="unreadCount" *ngIf="unreadCount !== '0'; else empty" (click)="op.toggle($event)"></i>
+  <ng-template #empty>
+    <i class="pi pi-bell notificationButton" (click)="op.toggle($event)"></i>
+  </ng-template>
+  <p-overlayPanel #op>
+    <div *ngIf="notifications?.length === 0">
+      You have 0 notifications
+    </div>
+    <div *ngFor="let notification of notifications" (click)="updateNotification(notification.id)"
+         [class]="notification.status === 'READ' ? 'notification' : 'notification notificationUnread'">
+      {{notification.notificationContent}}
+      <p-divider></p-divider>
+    </div>
+  </p-overlayPanel>
 </div>

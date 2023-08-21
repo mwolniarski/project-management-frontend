@@ -1,0 +1,16 @@
+.comment-container {
+  display: flex;
+}
+
+.comment-content {
+  margin-top: 20px;
+}
+
+.comment-user-image {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.edit-button {
+  cursor: pointer;
+}

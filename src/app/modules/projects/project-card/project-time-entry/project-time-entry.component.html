@@ -1,0 +1,19 @@
+<p-button label="Generate timesheet for project" styleClass="p-button-text" (click)="generateTimesheet()"></p-button>
+<p-table [value]="timeEntries" [tableStyle]="{'min-width': '60rem'}">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Hours spent</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-timeEntry>
+    <tr>
+      <td>{{timeEntry.hoursSpent}}</td>
+      <td>{{timeEntry.description}}</td>
+      <td>
+        <p-button label="Delete" styleClass="p-button-danger p-button-text" (click)="deleteTimeEntry(timeEntry.id)"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
