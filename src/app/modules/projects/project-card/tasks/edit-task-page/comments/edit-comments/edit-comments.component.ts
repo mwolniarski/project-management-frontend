@@ -20,7 +20,7 @@ export class EditCommentsComponent {
   @Input() comment: CommentModel;
   // @ts-ignore
   @Input() taskId: number;
-
+  @ViewChild('users') users: any;
   // @ts-ignore
   @Input() usersList: Array<UserReadModel>;
 
@@ -42,5 +42,6 @@ export class EditCommentsComponent {
 
   markUser(user: UserReadModel){
     this.comment.content += `@@@@${user.email}@@@@`;
+    this.users.hide();
   }
 }

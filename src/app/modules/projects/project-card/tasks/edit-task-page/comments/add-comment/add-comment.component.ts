@@ -15,6 +15,8 @@ export class AddCommentComponent {
 
   commentContent: string = '';
 
+  @ViewChild('users') users: any;
+
   // @ts-ignore
   @ViewChild('editor') editor: Editor;
 
@@ -45,6 +47,7 @@ export class AddCommentComponent {
 
   markUser(user: UserReadModel){
     this.commentContent += `@@@@${user.email}@@@@`;
+    this.users.hide();
   }
 
 }

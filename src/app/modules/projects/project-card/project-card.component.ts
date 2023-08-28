@@ -32,7 +32,7 @@ export class ProjectCardComponent implements OnInit {
     component.project = this.project;
   }
   items = [
-    {label: 'Overview', icon: 'pi pi-chart-bar', routerLink: '.', routerLinkActiveOptions: {exact: true}},
+    // {label: 'Overview', icon: 'pi pi-chart-bar', routerLink: '.', routerLinkActiveOptions: {exact: true}},
     {label: 'Tasks', icon: 'pi pi-check-square', routerLink: 'tasks'},
     {label: 'Users', icon: 'pi pi-user', routerLink: 'users'},
     {label: 'Timesheet', icon: 'pi pi-stopwatch', routerLink: 'timesheet'}

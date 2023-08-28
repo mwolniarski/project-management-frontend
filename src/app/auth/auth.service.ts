@@ -99,7 +99,7 @@ export class AuthService {
     this.localStorage.saveUserData(user);
     this.getUserProfileDetails();
     if (redirect)
-      this.router.navigate(['']);
+      this.router.navigate(['/projects']);
   }
 
   getRequestUrl(resourceUrl: string){

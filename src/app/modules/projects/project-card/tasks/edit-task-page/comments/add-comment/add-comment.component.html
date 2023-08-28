@@ -6,13 +6,12 @@
             <button type="button" (click)="users.toggle($event)"><i class="pi pi-user"></i></button>
         </span>
       <p-overlayPanel #users>
-        <p-dataView [value]="usersList" [rows]="5" [paginator]="true">
-          <ng-template let-user pTemplate="listItem">
-            <div (click)="markUser(user)" style="cursor: pointer">
-              {{user.firstName + ' ' + user.lastName}}
-            </div>
-          </ng-template>
-        </p-dataView>
+        <ng-template pTemplate="content">
+          <div (click)="markUser(user)" style="cursor: pointer" *ngFor="let user of usersList">
+            {{user.firstName + ' ' + user.lastName}}
+            <p-divider></p-divider>
+          </div>
+        </ng-template>
       </p-overlayPanel>
     </ng-template>
   </p-editor>

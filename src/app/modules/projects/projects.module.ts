@@ -45,6 +45,7 @@ import {FieldsetModule} from "primeng/fieldset";
 import {UserSettingsService} from "../../shared/services/userSettings.service";
 import { TimeEntryComponent } from './project-card/tasks/edit-task-page/time-entry/time-entry.component';
 import { ProjectTimeEntryComponent } from './project-card/project-time-entry/project-time-entry.component';
+import {DividerModule} from "primeng/divider";
 
 
 
@@ -91,7 +92,8 @@ import { ProjectTimeEntryComponent } from './project-card/project-time-entry/pro
         CardModule,
         OverlayPanelModule,
         DataViewModule,
-        FieldsetModule
+        FieldsetModule,
+        DividerModule
     ],
   exports: [
     ProjectCardComponent,

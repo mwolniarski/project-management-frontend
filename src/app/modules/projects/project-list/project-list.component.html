@@ -17,7 +17,7 @@
 
   <ng-template pTemplate="body" let-project>
     <tr>
-      <td><button pButton type="button" [label]="project.name" class="p-button-text" [routerLink]="project.id"></button></td>
+      <td><button pButton type="button" [label]="project.name" class="p-button-text" [routerLink]="project.id + '/tasks'"></button></td>
       <td>{{ project.owner.firstName +' '+project.owner.lastName}}</td>
       <td>{{ project.status }}</td>
       <td>

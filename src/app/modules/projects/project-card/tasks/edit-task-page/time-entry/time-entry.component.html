@@ -8,7 +8,7 @@
       pInputText
       [ngClass]="!hoursSpent.valid && hoursSpent.touched || !hoursSpent.touched && formModel.submitted ? 'ng-invalid ng-dirty' : ''"
       class="w-full"
-      ngModel
+      [(ngModel)]="hoursSpentValue"
       name="hoursSpent"
       required
       #hoursSpent="ngModel">
@@ -24,7 +24,7 @@
       placeholder="Describe created time entry..."
       pInputTextarea
       class="w-full"
-      ngModel
+      [(ngModel)]="descriptionValue"
       name="description"
       #description="ngModel"></textarea>
   </div>
